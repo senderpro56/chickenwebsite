@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Корзина - {{ site_name }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: {{ primary_color }};
+            --secondary-color: {{ secondary_color }};
+            --bg-color: {{ bg_color }};
+            --text-color: #333;
+            --light-color: #f8f8f8;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--secondary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 0.5rem 0;
+            border-radius: 2px;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        
+        .empty-cart p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .back-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+        
+        .back-link:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+        
+        .cart-item:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .cart-item-info {
+            flex-grow: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: bold;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+            min-width: 120px;
+            text-align: right;
+        }
+        
+        .total {
+            text-align: right;
+            font-size: 1.5rem;
+            margin: 2rem 0;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .checkout-form {
+            margin-top: 2rem;
+        }
+        
+        .checkout-form h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .checkout-form input,
+        .checkout-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .checkout-form input:focus,
+        .checkout-form textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+        }
+        
+        .checkout-form button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: var(--transition);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+        
+        .checkout-form button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .cart-item img {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .cart-item-price {
+                text-align: left;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">{{ site_name }}</div>
+    </header>
+    
+    <div class="container">
+        <h2 class="section-title">Ваша корзина</h2>
+        
+        {% if cart %}
+            {% for item in cart %}
+            <div class="cart-item">
+                <img src="https://via.placeholder.com/400x300/FF6B00/FFFFFF?text={{ item.name|urlencode }}" alt="{{ item.name }}" loading="lazy">
+                <div class="cart-item-info">
+                    <div class="cart-item-name">{{ item.name }}</div>
+                    <div>{{ item.quantity }} x {{ item.price }} руб.</div>
+                </div>
+                <div class="cart-item-price">{{ item.price * item.quantity }} руб.</div>
+            </div>
+            {% endfor %}
+            
+            <div class="total">Итого: {{ total }} руб.</div>
+            
+            <form method="POST" action="/checkout" class="checkout-form">
+                <h3>Оформление заказа</h3>
+                
+                <div class="form-group">
+                    <label for="name">Ваше имя</label>
+                    <input type="text" id="name" name="name" placeholder="Иван Иванов" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+7 (900) 123-45-67" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Адрес доставки</label>
+                    <input type="text" id="address" name="address" placeholder="ул. Ленина, д. 1, кв. 1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comments">Комментарии к заказу</label>
+                    <textarea id="comments" name="comments" placeholder="Дополнительные пожелания" rows="3"></textarea>
+                </div>
+                
+                <button type="submit">Подтвердить заказ</button>
+            </form>
+        {% else %}
+            <div class="empty-cart">
+                <p>Ваша корзина пуста</p>
+                <a href="/" class="back-link">← Вернуться в меню</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
